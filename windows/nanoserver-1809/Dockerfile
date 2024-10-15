@@ -17,7 +17,7 @@ RUN New-Item -ItemType Directory -Path C:\download; `
     } `
     Expand-Archive -Path C:\download\consul.zip -DestinationPath C:\download
 
-FROM mcr.microsoft.com/windows/nanoserver:1809-KB5011503
+FROM mcr.microsoft.com/windows/nanoserver:2009-KB4579311
 RUN mkdir C:\Consul\Data; `
     mkdir C:\Consul\Config
 COPY --from=downloader C:/download/consul.exe C:/Consul/consul.exe
