@@ -1,6 +1,6 @@
 # escape=`
 
-FROM mcr.microsoft.com/powershell:nanoserver-1809 as downloader
+FROM mcr.microsoft.com/powershell:nanoserver-2004 as downloader
 
 ENV VERSION 1.0.6
 ENV SHA256 33b95f2cf7387deac27d9f78b768b376919770fc5cc61b9437524f1a1a608c8a
