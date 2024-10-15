@@ -284,7 +284,7 @@ jobs:
         $GRADLE_ARGS
     - continue-on-error: true
       name: Build slim container image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile.slim
@@ -303,7 +303,7 @@ jobs:
           '
     - continue-on-error: true
       name: Build ubuntu container image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile.ubuntu
@@ -317,7 +317,7 @@ jobs:
           '
     - continue-on-error: true
       name: Build slim JRE 11 container image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile.java11.slim
@@ -336,7 +336,7 @@ jobs:
           '
     - continue-on-error: true
       name: Build ubuntu JRE 11 container image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile.java11.ubuntu

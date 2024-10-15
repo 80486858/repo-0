@@ -291,7 +291,7 @@ jobs:
     - continue-on-error: true
       if: startsWith(github.repository, 'spinnaker/')
       name: Build and publish slim container image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile.slim
@@ -313,7 +313,7 @@ jobs:
     - continue-on-error: true
       if: startsWith(github.repository, 'spinnaker/')
       name: Build and publish ubuntu container image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile.ubuntu
@@ -329,7 +329,7 @@ jobs:
     - continue-on-error: true
       if: startsWith(github.repository, 'spinnaker/')
       name: Build and publish slim JRE 11 container image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile.java11.slim
@@ -351,7 +351,7 @@ jobs:
     - continue-on-error: true
       if: startsWith(github.repository, 'spinnaker/')
       name: Build and publish ubuntu JRE 11 container image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile.java11.ubuntu
