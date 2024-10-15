@@ -1,0 +1,78 @@
+{
+  "name": "dwolla-algolia-search",
+  "version": "1.0.0",
+  "author": "Dwolla Developers <developers@dwolla.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "module": "index.mjs",
+  "types": "index.d.ts",
+  "scripts": {
+    "_eslint": "eslint \"src/**/*.{ts,tsx}\"",
+    "_prettier": "prettier \"src/**/*.{ts,tsx}\"",
+    "build-storybook": "build-storybook",
+    "build:check": "tsc --noEmit",
+    "bundle": "rollup -c",
+    "checks": "pnpm build:check && pnpm format:check && pnpm lint:check",
+    "clean": "rimraf bundle",
+    "format:check": "pnpm _prettier --check",
+    "format:fix": "pnpm _prettier --fix",
+    "lint:check": "pnpm _eslint",
+    "lint:fix": "pnpm _eslint --fix",
+    "storybook": "start-storybook -p 6006"
+  },
+  "devDependencies": {
+    "@algolia/autocomplete-js": "^1.7.4",
+    "@algolia/autocomplete-preset-algolia": "^1.7.4",
+    "@algolia/autocomplete-theme-classic": "^1.7.4",
+    "@algolia/client-search": "^4.14.3",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.3.0",
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
+    "@types/node": "^18.11.19",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "algoliasearch": "^4.14.3",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-storybook": "^0.6.10",
+    "node-sass": "^8.0.0",
+    "postcss": "^8.4.21",
+    "postcss-preset-env": "^7.8.3",
+    "prettier": "^2.8.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rimraf": "^4.1.2",
+    "rollup": "^3.14.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-ts": "^3.2.0",
+    "storybook-addon-sass-postcss": "^0.1.3",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "algoliasearch": "^4.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@babel/*",
+        "webpack"
+      ]
+    }
+  }
+}
