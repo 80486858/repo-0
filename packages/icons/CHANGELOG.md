@@ -1,25 +1,4 @@
-## [0.3.1](https://github.com/acronis/ui-component-library/compare/icons/0.3.0...icons/0.3.1) (2024-10-09)
-
-
-### Bug Fixes
-
-* **deps:** allowed to use a more recent version of peer dependencies than specified in package.json ([#128](https://github.com/acronis/ui-component-library/issues/128)) ([5a395b9](https://github.com/acronis/ui-component-library/commit/5a395b98ab9964a9e136a3c597714c1fa9f35393))
-
-## [0.3.0](https://github.com/acronis/ui-component-library/compare/icons/0.2.0...icons/0.3.0) (2024-09-18)
-
-
-### Features
-
-* **icons:** update figma icons ([0395448](https://github.com/acronis/ui-component-library/commit/03954489e9ad42b6e91e073e5bacb978a423ed13))
-
-## [0.2.0](https://github.com/acronis/ui-component-library/compare/icons/0.1.0...icons/0.2.0) (2024-09-04)
-
-
-### Features
-
-* **icons:** create new document icons ([9e8ec19](https://github.com/acronis/ui-component-library/commit/9e8ec198a395eb0b34a090f43ee126b7ddbb68e0))
-
-## [0.1.0](https://github.com/acronis/ui-component-library/compare/63bc5c18e74623f6c30b6459091c55ec680b5391...icons/0.1.0) (2024-08-28)
+## 0.4.0 (2024-10-15)
 
 
 ### Features
@@ -30,9 +9,11 @@
 * **icon:** add sorting to make export static ([d151020](https://github.com/acronis/ui-component-library/commit/d1510205cfc911c8b314855df6512b1e8ba0d2e4))
 * **icon:** new icons package ([c7c3659](https://github.com/acronis/ui-component-library/commit/c7c36596a61dcb458a3af22a7c10d285478e6459))
 * **icon:** review fixes ([3cf1d88](https://github.com/acronis/ui-component-library/commit/3cf1d88944f4a47fda7dc21123f2700cafdeb347))
+* **icons:** create new document icons ([9e8ec19](https://github.com/acronis/ui-component-library/commit/9e8ec198a395eb0b34a090f43ee126b7ddbb68e0))
 * **icons:** enable download icons script ([70cf6fa](https://github.com/acronis/ui-component-library/commit/70cf6faa5f5bbdac8ee8a70f1b557907a647978c))
 * **icons:** icons downloader ([c4085fe](https://github.com/acronis/ui-component-library/commit/c4085fe1050d9f4333ad54ac0c3caf7f4b71691b))
 * **icons:** remove constructor icons ([6607646](https://github.com/acronis/ui-component-library/commit/660764609616152d82a649803a5de898eaa92b03))
+* **icons:** update figma icons ([0395448](https://github.com/acronis/ui-component-library/commit/03954489e9ad42b6e91e073e5bacb978a423ed13))
 * **icons:** update icons ([878bf1e](https://github.com/acronis/ui-component-library/commit/878bf1eea72801971ae904e6315c120f048f4dbf))
 * **layer:** prepare layer styles ([0d25e85](https://github.com/acronis/ui-component-library/commit/0d25e8537bf54da9ac5e7f352d451ffc0b9f4d15))
 * **list:** add simple list component ([d6139b2](https://github.com/acronis/ui-component-library/commit/d6139b2bccdcc674b6b0df7d9c4be2e36d802f9f))
@@ -41,6 +22,7 @@
 ### Bug Fixes
 
 * **build:** enable publish npm on release ([ceb1060](https://github.com/acronis/ui-component-library/commit/ceb10605daa6568e9559f38e3e0e60be347e1d12))
+* **deps:** allowed to use a more recent version of peer dependencies than specified in package.json ([#128](https://github.com/acronis/ui-component-library/issues/128)) ([5a395b9](https://github.com/acronis/ui-component-library/commit/5a395b98ab9964a9e136a3c597714c1fa9f35393))
 * **docs:** fix icon paths in demos ([9f46367](https://github.com/acronis/ui-component-library/commit/9f46367d9276dbac60f5b4bb4acf5a4c3d948f9a))
 * fix icons package with temporary barrel file ([3c71af9](https://github.com/acronis/ui-component-library/commit/3c71af9e85b447760dc16961c3629ed0210235a2))
 * **icon:** cleaned package, updated readme ([dff46b4](https://github.com/acronis/ui-component-library/commit/dff46b4a8878bda31db94a43a494df64b93c0719))

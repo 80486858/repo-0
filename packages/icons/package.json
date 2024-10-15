@@ -1,7 +1,7 @@
 {
   "name": "@acronis-platform/icons",
   "type": "module",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Include SVG icon collections with Vue 3 examples.",
   "author": "Acronis",
   "license": "MIT",
