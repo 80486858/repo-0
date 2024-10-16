@@ -254,7 +254,7 @@ jobs:
         sudo sh -c ''echo 1 > /proc/sys/net/ipv4/ip_forward'''
     - continue-on-error: true
       name: Checkout
-      uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
     - continue-on-error: true
       name: Push to GAR
       uses: grafana/shared-workflows/actions/push-to-gar-docker@main
@@ -588,7 +588,7 @@ jobs:
         sudo sh -c ''echo 1 > /proc/sys/net/ipv4/ip_forward'''
     - continue-on-error: true
       name: Checkout
-      uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
     - continue-on-error: true
       name: Set up Go
       uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32
@@ -865,7 +865,7 @@ jobs:
         sudo sh -c ''echo 1 > /proc/sys/net/ipv4/ip_forward'''
     - continue-on-error: true
       name: Checkout
-      uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
     - continue-on-error: true
       name: Set up Go
       uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32
@@ -1181,7 +1181,7 @@ jobs:
         sudo sh -c ''echo 1 > /proc/sys/net/ipv4/ip_forward'''
     - continue-on-error: true
       name: Checkout
-      uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
     - continue-on-error: true
       name: Set up Go
       uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32
