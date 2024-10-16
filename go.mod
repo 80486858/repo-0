@@ -52,7 +52,7 @@ require (
 	google.golang.org/genproto v0.0.0-20210917145530-b395a37504d4
 	google.golang.org/grpc v1.42.0
 	google.golang.org/protobuf v1.27.1
-	sigs.k8s.io/yaml v1.3.0
+	sigs.k8s.io/yaml v1.4.0
 )
 
 require (
