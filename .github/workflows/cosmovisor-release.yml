@@ -265,7 +265,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GORELEASER_CURRENT_TAG: cosmovisor/${{ env.RELEASE_VERSION }}
       name: Run GoReleaser
-      uses: goreleaser/goreleaser-action@v2
+      uses: goreleaser/goreleaser-action@v6
       with:
         args: release --rm-dist --skip-validate
         version: latest
