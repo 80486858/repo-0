@@ -248,7 +248,7 @@ jobs:
       uses: actions/checkout@v2
     - continue-on-error: true
       id: git_diff
-      uses: technote-space/get-diff-action@v5
+      uses: technote-space/get-diff-action@v6
       with:
         PATTERNS: 'x/auth/atlas/**
 
@@ -510,7 +510,7 @@ jobs:
       uses: actions/checkout@v2
     - continue-on-error: true
       id: git_diff
-      uses: technote-space/get-diff-action@v5
+      uses: technote-space/get-diff-action@v6
       with:
         PATTERNS: 'x/bank/atlas/**
 
@@ -772,7 +772,7 @@ jobs:
       uses: actions/checkout@v2
     - continue-on-error: true
       id: git_diff
-      uses: technote-space/get-diff-action@v5
+      uses: technote-space/get-diff-action@v6
       with:
         PATTERNS: 'x/evidence/atlas/**
 

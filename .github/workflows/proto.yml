@@ -247,7 +247,7 @@ jobs:
     - continue-on-error: true
       uses: actions/checkout@master
     - continue-on-error: true
-      uses: technote-space/get-diff-action@v5
+      uses: technote-space/get-diff-action@v6
       with:
         PATTERNS: '**/**.proto
 
@@ -505,7 +505,7 @@ jobs:
     - continue-on-error: true
       uses: actions/checkout@master
     - continue-on-error: true
-      uses: technote-space/get-diff-action@v5
+      uses: technote-space/get-diff-action@v6
       with:
         PATTERNS: '**/**.proto
 
