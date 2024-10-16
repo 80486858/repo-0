@@ -22,14 +22,14 @@ require (
 	github.com/r3labs/diff v1.1.0
 	github.com/spf13/cobra v1.5.0
 	github.com/spf13/pflag v1.0.5
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.1
 	github.com/tatsushid/go-prettytable v0.0.0-20141013043238-ed2d14c29939
 	github.com/urfave/cli v1.22.9
 	github.com/variantdev/chartify v0.10.2
 	github.com/variantdev/dag v1.1.0
 	github.com/variantdev/vals v0.18.0
-	go.uber.org/multierr v1.6.0
-	go.uber.org/zap v1.21.0
+	go.uber.org/multierr v1.10.0
+	go.uber.org/zap v1.27.0
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211
 	gopkg.in/yaml.v2 v2.4.0
@@ -117,7 +117,6 @@ require (
 	go.mozilla.org/gopgagent v0.0.0-20170926210634-4d7ea76ff71a // indirect
 	go.mozilla.org/sops/v3 v3.7.1 // indirect
 	go.opencensus.io v0.23.0 // indirect
-	go.uber.org/atomic v1.7.0 // indirect
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
 	golang.org/x/sys v0.0.0-20220517195934-5e4e11fc645e // indirect
