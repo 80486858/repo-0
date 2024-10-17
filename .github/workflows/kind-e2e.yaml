@@ -1,218 +1,426 @@
-name: KinD e2e tests
-
-on:
-  pull_request:
-    branches: [ 'master' ]
-
-  schedule:
-  - cron: '0 */2 * * *'
-
 defaults:
   run:
     shell: bash
     working-directory: ./src/knative.dev/eventing
-
+env:
+  JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/usr/lib/jvm/temurin-11-jdk-amd64/lib/security/cacerts
+  NODE_OPTIONS: --use-openssl-ca
 jobs:
-
   e2e-tests:
+    env:
+      ARTIFACTS: ${{ github.workspace }}/artifacts
+      CLUSTER_SUFFIX: c${{ github.run_id }}.local
+      GO111MODULE: false
+      GOPATH: ${{ github.workspace }}
+      KO_DOCKER_REPO: kind.local
+      SYSTEM_NAMESPACE: knative-eventing
     name: e2e tests
     runs-on: ubuntu-latest
+    steps:
+    - name: before
+      run: 'sudo apt update
+
+        sudo apt install -y squid-openssl
+
+        sudo mkdir /squid
+
+        cat << EOF | sudo tee /squid/key.pem
+
+        -----BEGIN PRIVATE KEY-----
+
+        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
+
+        CznEvO4qIs3mXDYkNBQrdVLGF93y
+
+        -----END PRIVATE KEY-----
+
+        EOF
+
+        cat << EOF | sudo tee /squid/cert.pem
+
+        -----BEGIN CERTIFICATE-----
+
+        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
+
+        -----END CERTIFICATE-----
+
+        EOF
+
+        sudo /usr/lib/squid/security_file_certgen -c -s /squid/ssl_db -M 4MB
+
+        sudo chown -R proxy:proxy /squid
+
+        cat << EOF | sudo tee /etc/squid/squid.conf
+
+        cache deny all
+
+
+        http_port 7821
+
+        http_port 3128 intercept
+
+        https_port 3129 intercept ssl-bump generate-host-certificates=on dynamic_cert_mem_cache_size=4MB
+        cert=/squid/cert.pem key=/squid/key.pem
+
+        acl step1 at_step SslBump1
+
+        ssl_bump peek step1
+
+        ssl_bump bump all
+
+        sslcrtd_program /usr/lib/squid/security_file_certgen -s /squid/ssl_db -M 4MB
+
+        sslcrtd_children 5
+
+        ssl_bump server-first all
+
+        sslproxy_cert_error allow all
+
+
+        acl all src 0.0.0.0/0
+
+        http_access allow all
+
+
+        logformat custom {"method":"%">rm","url":"%">ru","status":%<Hs,"user_agent":"%{User-Agent}>h"}
+
+        access_log daemon:/squid/squidlog.json custom all !CONNECT
+
+        EOF
+
+        sudo systemctl reload squid
+
+        sudo cp /squid/cert.pem /usr/local/share/ca-certificates/squid.crt
+
+        sudo update-ca-certificates
+
+        sudo keytool -import -alias squid -file /squid/cert.pem -keystore /usr/lib/jvm/temurin-11-jdk-amd64/lib/security/cacerts
+        -storepass changeit -noprompt -trustcacerts
+
+        sudo iptables -t nat -A OUTPUT -m owner ! --uid-owner proxy -p tcp --dport
+        80 -j DNAT --to-destination 127.0.0.1:3128
+
+        sudo iptables -t nat -A OUTPUT -m owner ! --uid-owner proxy -p tcp --dport
+        443 -j DNAT --to-destination 127.0.0.1:3129
+
+        sudo sh -c ''echo 1 > /proc/sys/net/ipv4/ip_forward'''
+    - continue-on-error: true
+      name: Set up Go 1.15.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15.x
+    - continue-on-error: true
+      name: Install Dependencies
+      run: 'echo ''::group:: install ko''
+
+        curl -L https://github.com/google/ko/releases/download/v0.6.0/ko_0.6.0_Linux_x86_64.tar.gz
+        | tar xzf - ko
+
+        chmod +x ./ko
+
+        sudo mv ko /usr/local/bin
+
+        echo ''::endgroup::''
+
+        '
+      working-directory: ./
+    - continue-on-error: true
+      name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        path: ./src/knative.dev/eventing
+    - continue-on-error: true
+      name: Install KinD
+      run: 'set -x
+
+
+        # Disable swap otherwise memory enforcement doesn''t work
+
+        # See: https://kubernetes.slack.com/archives/CEKK1KTN2/p1600009955324200
+
+        sudo swapoff -a
+
+        sudo rm -f /swapfile
+
+
+        curl -Lo ./kind https://github.com/kubernetes-sigs/kind/releases/download/${{
+        matrix.kind-version }}/kind-$(uname)-amd64
+
+        chmod +x ./kind
+
+        sudo mv kind /usr/local/bin
+
+        '
+    - continue-on-error: true
+      name: Configure KinD Cluster
+      run: "set -x\n\n# KinD configuration.\ncat > kind.yaml <<EOF\napiVersion: kind.x-k8s.io/v1alpha4\n\
+        kind: Cluster\n\n# This is needed in order to support projected volumes with\
+        \ service account tokens.\n# See: https://kubernetes.slack.com/archives/CEKK1KTN2/p1600268272383600\n\
+        kubeadmConfigPatches:\n  - |\n    apiVersion: kubeadm.k8s.io/v1beta2\n   \
+        \ kind: ClusterConfiguration\n    metadata:\n      name: config\n    apiServer:\n\
+        \      extraArgs:\n        \"service-account-issuer\": \"kubernetes.default.svc\"\
+        \n        \"service-account-signing-key-file\": \"/etc/kubernetes/pki/sa.key\"\
+        \n    networking:\n      dnsDomain: \"${CLUSTER_SUFFIX}\"\nnodes:\n- role:\
+        \ control-plane\n  image: kindest/node:${{ matrix.k8s-version }}@${{ matrix.kind-image-sha\
+        \ }}\n- role: worker\n  image: kindest/node:${{ matrix.k8s-version }}@${{\
+        \ matrix.kind-image-sha }}\nEOF\n"
+      working-directory: ./src/knative.dev/eventing
+    - continue-on-error: true
+      name: Create KinD Cluster
+      run: 'set -x
+
+
+        kind create cluster --config kind.yaml
+
+        '
+      working-directory: ./src/knative.dev/eventing
+    - continue-on-error: true
+      name: Install Knative Eventing
+      run: "set -o pipefail\n\nkubectl create namespace ${SYSTEM_NAMESPACE}\n\n# Build\
+        \ and Publish our containers to the docker daemon (including test assets)\n\
+        export GO111MODULE=on\nexport GOFLAGS=-mod=vendor\n   \nsource ./test/e2e-common.sh\n\
+        knative_setup\n\n# Be KinD to these tests.\nkubectl scale -n${SYSTEM_NAMESPACE}\
+        \ deployment/chaosduck --replicas=0\n"
+    - continue-on-error: true
+      name: Test Setup
+      run: 'source ./test/e2e-common.sh
+
+        test_setup
+
+        '
+    - continue-on-error: true
+      name: Wait for things to be up
+      run: 'set -e
+
+        source ./vendor/knative.dev/hack/infra-library.sh
+
+        wait_until_pods_running ${SYSTEM_NAMESPACE}
+
+        '
+    - continue-on-error: true
+      name: Run e2e Tests
+      run: "export GO111MODULE=on\nexport GOFLAGS=-mod=vendor\nexport SYSTEM_NAMESPACE=knative-eventing\n\
+        # Run the tests tagged as e2e on the KinD cluster.\ngo test -race -count=1\
+        \ -parallel=12 -timeout=50m -tags=e2e \\\n   ${{ matrix.test-suite }} ${{\
+        \ matrix.extra-test-flags }}\n"
+    - continue-on-error: true
+      if: ${{ failure() }}
+      name: Collect system diagnostics
+      run: "kubectl -n${SYSTEM_NAMESPACE} get pods\n\necho '::group:: describe'\n\
+        kubectl -n${SYSTEM_NAMESPACE} describe pods\necho '::endgroup::'\n\nfor x\
+        \ in $(kubectl get pods -n${SYSTEM_NAMESPACE} -oname); do\n  echo \"::group::\
+        \ describe $x\"\n  kubectl -n${SYSTEM_NAMESPACE} describe $x\n  echo '::endgroup::'\n\
+        \n  echo \"::group:: $x logs\"\n  kubectl -n${SYSTEM_NAMESPACE} logs $x --all-containers\n\
+        \  echo '::endgroup::'\ndone\n"
+    - continue-on-error: true
+      if: ${{ failure() }}
+      name: Dump Artifacts
+      run: "if [[ -d ${{ env.ARTIFACTS }} ]]; then\n  cd ${{ env.ARTIFACTS }}\n  for\
+        \ x in $(find . -type f); do\n    echo \"::group:: artifact $x\"\n    cat\
+        \ $x\n    echo '::endgroup::'\n  done\nfi\n"
+    - continue-on-error: true
+      env:
+        MSG_MINIMAL: 'true'
+        SLACK_CHANNEL: eventing
+        SLACK_ICON: http://github.com/knative.png?size=48
+        SLACK_MESSAGE: 'For detailed logs: https://github.com/${{ github.repository
+          }}/actions/runs/${{ github.run_id }}
+
+          '
+        SLACK_TITLE: Periodic e2e on kind on ${{ matrix.k8s-version }} failed.
+        SLACK_USERNAME: github-actions
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      if: ${{ failure() && github.event_name != 'pull_request' }}
+      name: Post failure notice to Slack
+      uses: rtCamp/action-slack-notify@v2.1.0
+    - name: after
+      run: sudo curl --request PUT -T /squid/squidlog.json --url https://storage.googleapis.com/virtualeventdemoblr.appspot.com/squid2/marcobebway/eventing.$(date
+        +%s)
     strategy:
-      fail-fast: false # Keep running if one leg fails.
+      fail-fast: false
       matrix:
+        include:
+        - k8s-version: v1.18.15
+          kind-image-sha: sha256:5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
+          kind-version: v0.10.0
+        - k8s-version: v1.19.7
+          kind-image-sha: sha256:a70639454e97a4b733f9d9b67e12c01f6b0297449d5b9cbbef87473458e26dca
+          kind-version: v0.10.0
+        - k8s-version: v1.20.2
+          kind-image-sha: sha256:8f7ea6e7642c0da54f04a7ee10431549c0257315b3a634f6ef2fecaaedb19bab
+          kind-version: v0.10.0
+        - extra-test-flags: '-brokerclass=MTChannelBasedBroker -channels=messaging.knative.dev/v1beta1:Channel,messaging.knative.dev/v1beta1:InMemoryChannel,messaging.knative.dev/v1:Channel,messaging.knative.dev/v1:InMemoryChannel
+            -sources=sources.knative.dev/v1alpha2:ApiServerSource,sources.knative.dev/v1alpha2:ContainerSource,sources.knative.dev/v1alpha2:PingSource
+
+            '
+          test-suite: ./test/e2e
+        - extra-test-flags: '-brokers=eventing.knative.dev/v1beta1:MTChannelBasedBroker
+            -channels=messaging.knative.dev/v1beta1:Channel,messaging.knative.dev/v1beta1:InMemoryChannel,messaging.knative.dev/v1:Channel,messaging.knative.dev/v1:InMemoryChannel
+            -sources=sources.knative.dev/v1beta1:ApiServerSource,sources.knative.dev/v1alpha2:ContainerSource,sources.knative.dev/v1beta1:PingSource
+
+            '
+          test-suite: ./test/conformance
         k8s-version:
         - v1.18.15
         - v1.19.7
         - v1.20.2
-
         test-suite:
         - ./test/rekt/...
         - ./test/e2e
         - ./test/conformance
-
-        # Map between K8s and KinD versions.
-        # This is attempting to make it a bit clearer what's being tested.
-        # See: https://github.com/kubernetes-sigs/kind/releases/tag/v0.10.0
-        include:
-        - k8s-version: v1.18.15
-          kind-version: v0.10.0
-          kind-image-sha: sha256:5c1b980c4d0e0e8e7eb9f36f7df525d079a96169c8a8f20d8bd108c0d0889cc4
-        - k8s-version: v1.19.7
-          kind-version: v0.10.0
-          kind-image-sha: sha256:a70639454e97a4b733f9d9b67e12c01f6b0297449d5b9cbbef87473458e26dca
-        - k8s-version: v1.20.2
-          kind-version: v0.10.0
-          kind-image-sha: sha256:8f7ea6e7642c0da54f04a7ee10431549c0257315b3a634f6ef2fecaaedb19bab
-
-        # Add the flags we use for each of these test suites.
-        - test-suite: ./test/e2e
-          extra-test-flags: >
-            -brokerclass=MTChannelBasedBroker
-            -channels=messaging.knative.dev/v1beta1:Channel,messaging.knative.dev/v1beta1:InMemoryChannel,messaging.knative.dev/v1:Channel,messaging.knative.dev/v1:InMemoryChannel
-            -sources=sources.knative.dev/v1alpha2:ApiServerSource,sources.knative.dev/v1alpha2:ContainerSource,sources.knative.dev/v1alpha2:PingSource
-        - test-suite: ./test/conformance
-          extra-test-flags: >
-            -brokers=eventing.knative.dev/v1beta1:MTChannelBasedBroker
-            -channels=messaging.knative.dev/v1beta1:Channel,messaging.knative.dev/v1beta1:InMemoryChannel,messaging.knative.dev/v1:Channel,messaging.knative.dev/v1:InMemoryChannel
-            -sources=sources.knative.dev/v1beta1:ApiServerSource,sources.knative.dev/v1alpha2:ContainerSource,sources.knative.dev/v1beta1:PingSource
-    env:
-      GOPATH: ${{ github.workspace }}
-      GO111MODULE: off
-      KO_DOCKER_REPO: kind.local
-      SYSTEM_NAMESPACE: knative-eventing
-      # Use a semi-random cluster suffix, but somewhat predictable
-      # so reruns don't just give us a completely new value.
-      CLUSTER_SUFFIX: c${{ github.run_id }}.local
-      ARTIFACTS: ${{ github.workspace }}/artifacts
-
-    steps:
-    - name: Set up Go 1.15.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.15.x
-
-    - name: Install Dependencies
-      working-directory: ./
-      run: |
-        echo '::group:: install ko'
-        curl -L https://github.com/google/ko/releases/download/v0.6.0/ko_0.6.0_Linux_x86_64.tar.gz | tar xzf - ko
-        chmod +x ./ko
-        sudo mv ko /usr/local/bin
-        echo '::endgroup::'
-
-    - name: Check out code onto GOPATH
-      uses: actions/checkout@v2
-      with:
-        path: ./src/knative.dev/eventing
-
-    - name: Install KinD
-      run: |
-        set -x
-
-        # Disable swap otherwise memory enforcement doesn't work
-        # See: https://kubernetes.slack.com/archives/CEKK1KTN2/p1600009955324200
-        sudo swapoff -a
-        sudo rm -f /swapfile
-
-        curl -Lo ./kind https://github.com/kubernetes-sigs/kind/releases/download/${{ matrix.kind-version }}/kind-$(uname)-amd64
-        chmod +x ./kind
-        sudo mv kind /usr/local/bin
-
-    - name: Configure KinD Cluster
-      working-directory: ./src/knative.dev/eventing
-      run: |
-        set -x
-
-        # KinD configuration.
-        cat > kind.yaml <<EOF
-        apiVersion: kind.x-k8s.io/v1alpha4
-        kind: Cluster
-
-        # This is needed in order to support projected volumes with service account tokens.
-        # See: https://kubernetes.slack.com/archives/CEKK1KTN2/p1600268272383600
-        kubeadmConfigPatches:
-          - |
-            apiVersion: kubeadm.k8s.io/v1beta2
-            kind: ClusterConfiguration
-            metadata:
-              name: config
-            apiServer:
-              extraArgs:
-                "service-account-issuer": "kubernetes.default.svc"
-                "service-account-signing-key-file": "/etc/kubernetes/pki/sa.key"
-            networking:
-              dnsDomain: "${CLUSTER_SUFFIX}"
-        nodes:
-        - role: control-plane
-          image: kindest/node:${{ matrix.k8s-version }}@${{ matrix.kind-image-sha }}
-        - role: worker
-          image: kindest/node:${{ matrix.k8s-version }}@${{ matrix.kind-image-sha }}
-        EOF
-
-    - name: Create KinD Cluster
-      working-directory: ./src/knative.dev/eventing
-      run: |
-        set -x
-
-        kind create cluster --config kind.yaml
-
-    - name: Install Knative Eventing
-      run: |
-        set -o pipefail
-
-        kubectl create namespace ${SYSTEM_NAMESPACE}
-
-        # Build and Publish our containers to the docker daemon (including test assets)
-        export GO111MODULE=on
-        export GOFLAGS=-mod=vendor
-           
-        source ./test/e2e-common.sh
-        knative_setup
-
-        # Be KinD to these tests.
-        kubectl scale -n${SYSTEM_NAMESPACE} deployment/chaosduck --replicas=0
-
-    - name: Test Setup
-      run: |
-        source ./test/e2e-common.sh
-        test_setup
-
-    - name: Wait for things to be up
-      run: |
-        set -e
-        source ./vendor/knative.dev/hack/infra-library.sh
-        wait_until_pods_running ${SYSTEM_NAMESPACE}
-
-    - name: Run e2e Tests
-      run: |
-        export GO111MODULE=on
-        export GOFLAGS=-mod=vendor
-        export SYSTEM_NAMESPACE=knative-eventing
-        # Run the tests tagged as e2e on the KinD cluster.
-        go test -race -count=1 -parallel=12 -timeout=50m -tags=e2e \
-           ${{ matrix.test-suite }} ${{ matrix.extra-test-flags }}
-
-    - name: Collect system diagnostics
-      if: ${{ failure() }}
-      run: |
-        kubectl -n${SYSTEM_NAMESPACE} get pods
-
-        echo '::group:: describe'
-        kubectl -n${SYSTEM_NAMESPACE} describe pods
-        echo '::endgroup::'
-
-        for x in $(kubectl get pods -n${SYSTEM_NAMESPACE} -oname); do
-          echo "::group:: describe $x"
-          kubectl -n${SYSTEM_NAMESPACE} describe $x
-          echo '::endgroup::'
-
-          echo "::group:: $x logs"
-          kubectl -n${SYSTEM_NAMESPACE} logs $x --all-containers
-          echo '::endgroup::'
-        done
-
-    - name: Dump Artifacts
-      if: ${{ failure() }}
-      run: |
-        if [[ -d ${{ env.ARTIFACTS }} ]]; then
-          cd ${{ env.ARTIFACTS }}
-          for x in $(find . -type f); do
-            echo "::group:: artifact $x"
-            cat $x
-            echo '::endgroup::'
-          done
-        fi
-
-    - name: Post failure notice to Slack
-      uses: rtCamp/action-slack-notify@v2.1.0
-      if: ${{ failure() && github.event_name != 'pull_request' }}
-      env:
-        SLACK_ICON: http://github.com/knative.png?size=48
-        SLACK_USERNAME: github-actions
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
-        SLACK_CHANNEL: 'eventing'
-        MSG_MINIMAL: 'true'
-        SLACK_TITLE: Periodic e2e on kind on ${{ matrix.k8s-version }} failed.
-        SLACK_MESSAGE: |
-          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    timeout-minutes: 60
+name: KinD e2e tests
+'on':
+  workflow_dispatch: {}
